@@ -1,0 +1,256 @@
+aid: bupa
+name: Bupa
+review:
+  question: Does Bupa expose a real, self-serve public API surface for developers?
+  answer: false
+  date: '2026-07-25'
+  reviewer: API Evangelist
+  homeMarket: United Kingdom
+  tier: carrier-life-health
+findings:
+  summary: |
+    Bupa is a UK-headquartered international healthcare group — a health
+    insurance carrier that also owns and operates the provision (clinics,
+    dental, hospitals, aged care). It publishes no group-level developer
+    portal. Two market units run first-party developer surfaces, and both are
+    gated: Bupa Australia's Azure API Management portal at
+    portal.api.bupa.com.au is live (HTTP 200) but exposes no API catalog to
+    anonymous visitors and directs prospective consumers to "Contact the Bupa
+    Integration Fabric Team with your interest to get access to our API
+    specifications"; Bupa Chile's apidoc.bupa.cl is an Angular single-page
+    application fronted by a Microsoft Entra ID login whose backend
+    (https://api.bupa.cl/portal/ms-controller) returns HTTP 401 to every
+    anonymous request. No downloadable OpenAPI or Swagger definition was found
+    anywhere. This is the expected posture for a health carrier in a market
+    with no open-insurance obligation: the UK has the FCA and PRA but no
+    open-insurance rule, the FCA's Open Finance work remains consultation, and
+    the London Market's Blueprint Two modernization is aimed at brokers and
+    syndicates in the subscription P&C market, not at a life-and-health carrier
+    like Bupa and not at outside developers.
+  developerPortal:
+    groupLevel:
+      domain: bupa.com
+      verdict: none
+      note: |
+        No group-level developer portal exists. All conventional hosts and
+        paths were probed on 2026-07-25 and none is a developer surface.
+    marketUnitPortals:
+    - name: Bupa Developer Portal (Bupa Australia)
+      url: https://portal.api.bupa.com.au/
+      httpStatus: 200
+      platform: Azure API Management managed developer portal
+      classification: partner-gated developer portal
+      selfServe: false
+      note: |
+        Navigation is limited to Home, Get Started and Sign-In / Register. The
+        /api-details and /apis routes return HTTP 200 but render no API list
+        without authentication. The portal's own /config.json (HTTP 200)
+        reports managementApiUrl
+        https://management.api.internal.bupa.com.au/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/banzprodapim01
+        — an internal-only host that does not resolve publicly, so the API
+        catalog cannot be read anonymously. The Get Started page reads, in
+        full: "1. Sign Up — Contact the Bupa Integration Fabric Team with your
+        interest to get access to our API specifications. 2. Explore Bupa APIs
+        — Browse our API Products to find the capabilities you need and learn
+        how to interact. 3. Request for Integration — Contact the Bupa
+        Integration Fabric Team for Integration Guides and Environments for
+        selected Products and APIs."
+      owner: Bupa HI Pty Ltd ABN 81 000 057 590 (per portal meta author tag)
+    - name: Portal de APIs Bupa (Bupa Chile)
+      url: https://apidoc.bupa.cl/
+      httpStatus: 200
+      platform: Angular SPA with MSAL / Microsoft Entra ID
+      classification: login wall
+      selfServe: false
+      note: |
+        The shipped JavaScript bundle declares baseUrl
+        https://api.bupa.cl/portal/ms-controller, an Entra ID authority of
+        https://login.microsoftonline.com/6faad805-0755-4412-981c-e2d4e4021ee7
+        and client_id 744efffa-f93d-4137-b874-cef142712fa6, with redirect to
+        https://apidoc.bupa.cl/public/login. Anonymous requests to
+        https://api.bupa.cl/, /portal/ms-controller, /portal/ms-controller/apis,
+        /openapi.json and /swagger.json all return HTTP 401.
+    - name: Bupa Global developer portal
+      url: https://api-portal.bupaglobal.com/
+      httpStatus: 000
+      classification: dead host
+      note: |
+        Referenced by third-party search indexes but the host returns NXDOMAIN
+        as of 2026-07-25; no content could be retrieved. Recorded as
+        decommissioned rather than as a live surface.
+  probes:
+  - url: https://developer.bupa.com
+    result: NXDOMAIN
+  - url: https://developers.bupa.com
+    result: NXDOMAIN
+  - url: https://docs.bupa.com
+    result: NXDOMAIN
+  - url: https://api.bupa.com
+    result: NXDOMAIN
+  - url: https://www.bupa.com/developers
+    httpStatus: 404
+  - url: https://www.bupa.com/api
+    httpStatus: 404
+  - url: https://www.bupa.com/developer
+    httpStatus: 404
+  - url: https://www.bupa.com/integrations
+    httpStatus: 404
+  - url: https://www.bupa.com/partners
+    httpStatus: 500
+    note: Redirects off-domain to https://grow-partners.sabacloud.com/Saba/ — a Saba learning-cloud partner training site, not an API surface.
+  - url: https://www.bupa.com/
+    httpStatus: 200
+  - url: https://www.bupa.co.uk/
+    httpStatus: 403
+    note: UK market-unit site blocks automated clients; not a developer surface either way. The UK intermediary channel is the login-gated "Bupa Connect" broker portal, not an API.
+  - url: https://developer.bupa.co.uk
+    result: NXDOMAIN
+  - url: https://api.bupa.co.uk
+    result: NXDOMAIN
+  - url: https://api.bupaglobal.com
+    result: NXDOMAIN
+  - url: https://api.bupa.com.au/
+    httpStatus: 502
+    note: Host resolves behind Imperva but the gateway returns 502 to anonymous callers; /openapi.json, /swagger.json, /api-docs, /v1/openapi.json and /.well-known/openid-configuration all return 502.
+  - url: https://www.bupa.com.au/developers
+    httpStatus: 200
+    note: Imperva/Incapsula block page, not a real developer page.
+  - url: https://portal.api.bupa.com.au/config.json
+    httpStatus: 200
+    note: Azure APIM portal configuration; management API is an internal-only host.
+  - url: https://api.bupa.cl/portal/ms-controller
+    httpStatus: 401
+  - url: https://api.github.com/orgs/bupa
+    httpStatus: 404
+    note: No public GitHub organization under the bupa handle.
+  acordPosture: no ACORD reference found
+  acordNote: |
+    No mention of ACORD, AL3, ACORD XML, NGDS, ACORD certification or ACORD
+    APIs appears on bupa.com, portal.api.bupa.com.au or apidoc.bupa.cl, and no
+    ACORD membership or certification claim for Bupa surfaced in search. This
+    is consistent with the line of business: Bupa writes private medical
+    insurance and runs healthcare provision, not P&C or life, and its home
+    market is the UK, where the agency-download plumbing (IVANS, Applied Epic,
+    Vertafore AMS360) that carries ACORD in the US does not apply.
+  insuranceVerbs:
+    quote:
+      publiclyExposed: false
+      note: No public quote or rating API. UK intermediary quoting runs through the login-gated Bupa Connect broker portal.
+    bind:
+      publiclyExposed: false
+    issue:
+      publiclyExposed: false
+    fnol:
+      publiclyExposed: false
+      note: Claims are submitted by members through the myBupa app and member web portals, and by providers through gated provider channels. No public FNOL or claims API is documented.
+    audience: partner-only — no consumer-facing or agent-facing self-serve API is published.
+  authModel:
+    confirmed:
+    - scheme: OAuth2 authorization code via Microsoft Entra ID
+      evidence: apidoc.bupa.cl MSAL configuration (authority https://login.microsoftonline.com/6faad805-0755-4412-981c-e2d4e4021ee7, client_id 744efffa-f93d-4137-b874-cef142712fa6). The tenant's /v2.0/.well-known/openid-configuration returns HTTP 200 and issuer https://login.microsoftonline.com/6faad805-0755-4412-981c-e2d4e4021ee7/v2.0.
+      note: This authenticates access to the Chile portal itself, not a documented API scheme.
+    implied:
+    - scheme: Azure API Management subscription keys
+      evidence: portal.api.bupa.com.au is an Azure APIM managed portal and its copy reads "Start with simple registration and get the keys to manage, build and test."
+      note: Not documented publicly; inferred from the platform, not from a published reference.
+    firstPartyWellKnown:
+    - url: https://api.bupa.com.au/.well-known/openid-configuration
+      httpStatus: 502
+    - url: https://api.bupa.cl/.well-known/openid-configuration
+      httpStatus: 401
+  transports:
+  - protocol: REST
+    scheme: https
+    documented: false
+    note: REST is the evident style behind both market-unit portals (Azure APIM gateway for Australia, an Angular-consumed microservice controller for Chile), but no endpoint, path or base URL is published to unauthenticated developers.
+  - protocol: GraphQL
+    documented: false
+    note: No /graphql surface found on any Bupa host probed.
+  - protocol: gRPC
+    documented: false
+    note: No published .proto files.
+  - protocol: WebSocket
+    documented: false
+  - protocol: SSE
+    documented: false
+  openapi:
+    harvested: false
+    specsCount: 0
+    note: |
+      No OpenAPI or Swagger document could be retrieved. Candidate paths
+      (/openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json,
+      /api-docs, /spec, /redoc) were probed against api.bupa.com.au (all 502)
+      and api.bupa.cl (all 401). The Azure APIM portal exposes spec download
+      only to signed-in subscribers, and Bupa additionally requires contacting
+      the Integration Fabric Team before specifications are released. The
+      openapi/ directory is therefore omitted from this repository rather than
+      populated with anything fabricated.
+  postman:
+    found: false
+    note: No public Postman workspace or collection published by Bupa was found.
+  webhooks:
+    found: false
+    note: No event catalog, AsyncAPI document, or webhook reference is published. Absence is the finding.
+  verdict: |
+    built-stub. Bupa is a genuine, large insurance carrier with a real internal
+    API programme — an Azure API Management estate in Australia branded as the
+    "Integration Fabric", an Entra-secured API portal in Chile — but none of it
+    is a public, self-serve developer surface. The integration path is
+    relationship-first: contact a team, sign an agreement, then receive
+    specifications and environments. For the sector data set this records
+    cleanly as: real portal, zero public APIs, zero specs, partner-gated, no
+    ACORD.
+sources:
+- url: https://www.bupa.com/
+  type: Website
+  httpStatus: 200
+  note: Group site; describes Bupa as "a global healthcare company" looking after people's health "for over 75 years". No developer or API navigation anywhere.
+- url: https://portal.api.bupa.com.au/
+  type: DeveloperPortal
+  httpStatus: 200
+  fetched: '2026-07-25'
+  note: Azure APIM managed portal. Title "Home - Bupa Developer Portal"; description "Discover APIs, learn how to use them, try them out interactively, and sign up to acquire keys." Nav is Home / Get Started / Sign-In / Register only.
+- url: https://portal.api.bupa.com.au/get-started
+  type: Documentation
+  httpStatus: 200
+  fetched: '2026-07-25'
+  note: Three-step onboarding, all of which route through the Bupa Integration Fabric Team. This is the single most important evidence that the portal is not self-serve.
+- url: https://portal.api.bupa.com.au/api-details
+  type: APIReference
+  httpStatus: 200
+  fetched: '2026-07-25'
+  note: Renders a page heading "API Details" with no API list for anonymous visitors.
+- url: https://portal.api.bupa.com.au/config.json
+  type: Configuration
+  httpStatus: 200
+  fetched: '2026-07-25'
+  note: Points the portal at an internal-only APIM management endpoint (service banzprodapim01), confirming the catalog is not anonymously readable.
+- url: https://apidoc.bupa.cl/
+  type: DeveloperPortal
+  httpStatus: 200
+  fetched: '2026-07-25'
+  note: Portal de APIs Bupa (Bupa Chile). Angular SPA; all content behind Microsoft Entra ID sign-in.
+- url: https://api.bupa.cl/portal/ms-controller
+  type: BaseURL
+  httpStatus: 401
+  fetched: '2026-07-25'
+  note: Chile portal backend; rejects anonymous requests.
+- url: https://api-portal.bupaglobal.com/
+  type: DeveloperPortal
+  httpStatus: 000
+  fetched: '2026-07-25'
+  note: NXDOMAIN. Indexed by third parties but no longer resolves; treated as decommissioned.
+- url: https://www.bupa.co.uk/intermediaries
+  type: PartnerPortal
+  httpStatus: 403
+  fetched: '2026-07-25'
+  note: UK broker and intermediary channel. Bot-protected; the intermediary tooling ("Bupa Connect") is a login-gated web portal for quotes and cover, not a documented API.
+actions:
+  apisYmlCreated: true
+  apisListed: 0
+  openapiDirectoryCreated: false
+  reason: |
+    Nothing real was available to harvest. Recording the absence accurately —
+    a live but gated portal, an internal management endpoint, a 401 backend, a
+    dead Bupa Global host, and no ACORD anywhere — is the correct outcome for
+    this record.
