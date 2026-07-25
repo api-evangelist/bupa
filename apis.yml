@@ -43,22 +43,115 @@ tags:
 created: '2026-07-25'
 modified: '2026-07-25'
 specificationVersion: '0.19'
-apis: []
+apis:
+- name: Bupa Australia APIs (Integration Fabric)
+  description: >-
+    The Bupa Australia API estate, published through an Azure API Management
+    managed developer portal at portal.api.bupa.com.au and served from the
+    api.bupa.com.au gateway host. The portal is publicly reachable (HTTP 200)
+    and its own sitemap.xml declares Products, APIs, API Details and API
+    Changelog routes, but the catalog renders client-side against an
+    internal-only APIM management endpoint
+    (management.api.internal.bupa.com.au, service banzprodapim01) and is
+    therefore empty for anonymous visitors. Bupa's onboarding copy makes the
+    gating explicit: "Contact the Bupa Integration Fabric Team with your
+    interest to get access to our API specifications." The gateway host
+    api.bupa.com.au resolves behind Imperva and returns HTTP 502 to anonymous
+    callers, including for /openapi.json, /swagger.json, /api-docs and
+    /.well-known/openid-configuration. No OpenAPI definition is retrievable
+    without a partner agreement.
+  humanURL: https://portal.api.bupa.com.au/
+  baseURL: https://api.bupa.com.au
+  tags:
+  - Insurance
+  - Health Insurance
+  - Australia
+  - Partner Gated
+  - Azure API Management
+  properties:
+  - type: DeveloperPortal
+    url: https://portal.api.bupa.com.au/
+  - type: GettingStarted
+    url: https://portal.api.bupa.com.au/get-started
+  - type: APIReference
+    url: https://portal.api.bupa.com.au/api-details
+  - type: Documentation
+    url: https://portal.api.bupa.com.au/apis
+  - type: ChangeLog
+    url: https://portal.api.bupa.com.au/api-changelog
+  - type: SignUp
+    url: https://portal.api.bupa.com.au/signin
+  - type: TermsOfService
+    url: https://www.bupa.com.au/terms-and-conditions
+- name: Portal de APIs Bupa (Bupa Chile)
+  description: >-
+    The Bupa Chile API portal at apidoc.bupa.cl — an Angular single-page
+    application that ships Swagger UI and renders API definitions fetched from
+    the backend controller at https://api.bupa.cl/portal/ms-controller. Every
+    anonymous request to that backend returns HTTP 401, so no definition can be
+    read without credentials. Access is fronted by Microsoft Entra ID
+    (authority login.microsoftonline.com tenant
+    6faad805-0755-4412-981c-e2d4e4021ee7, client_id
+    744efffa-f93d-4137-b874-cef142712fa6, redirect
+    https://apidoc.bupa.cl/public/login), whose OpenID Connect discovery
+    document is publicly readable and is captured verbatim in well-known/. The
+    portal is a login wall rather than a self-serve developer surface.
+  humanURL: https://apidoc.bupa.cl/
+  baseURL: https://api.bupa.cl/portal/ms-controller
+  tags:
+  - Insurance
+  - Health Insurance
+  - Chile
+  - Partner Gated
+  - Login Wall
+  properties:
+  - type: DeveloperPortal
+    url: https://apidoc.bupa.cl/
+  - type: Authentication
+    url: authentication/bupa-authentication.yml
 common:
 - type: Website
   url: https://www.bupa.com/
 - type: Blog
-  url: https://www.bupa.com/news
+  url: https://www.bupa.com/news-and-press/news-and-stories
 - type: LinkedIn
   url: https://www.linkedin.com/company/bupa
+- type: GitHubOrganization
+  url: https://github.com/bupa-digital
 - type: DeveloperPortal
   url: https://portal.api.bupa.com.au/
 - type: Documentation
+  url: https://portal.api.bupa.com.au/apis
+- type: GettingStarted
   url: https://portal.api.bupa.com.au/get-started
+- type: APIReference
+  url: https://portal.api.bupa.com.au/api-details
+- type: ChangeLog
+  url: changelog/bupa-changelog.yml
 - type: SignUp
   url: https://portal.api.bupa.com.au/signin
+- type: Support
+  url: https://www.bupa.com/contacts
 - type: TermsOfService
   url: https://www.bupa.com.au/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.bupa.com/important-notices/privacy-notices
+- type: Authentication
+  url: authentication/bupa-authentication.yml
+- type: Conformance
+  url: conformance/bupa-conformance.yml
+- type: Lifecycle
+  url: lifecycle/bupa-lifecycle.yml
+- type: Packages
+  url: packages/bupa-packages.yml
+- type: LLMsTxt
+  url: llms/bupa-llms.txt
+- type: DomainSecurity
+  url: security/bupa-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/bupa-vulnerability-disclosure.yml
+- type: Security
+  url: https://bugcrowd.com/engagements/bupa-aus-vdp-pro
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

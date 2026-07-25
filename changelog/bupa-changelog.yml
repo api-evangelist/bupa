@@ -1,0 +1,45 @@
+generated: '2026-07-25'
+method: searched
+source: https://portal.api.bupa.com.au/api-changelog
+url: https://portal.api.bupa.com.au/api-changelog
+http_status: 200
+gated: true
+scheme: unknown
+current_version: null
+entries: []
+note: >-
+  Bupa Australia publishes an API changelog route on its Azure API Management
+  developer portal. The route is real and provider-declared — it appears in the
+  portal's own https://portal.api.bupa.com.au/sitemap.xml with lastmod
+  2026-06-17T08:04:22.066Z, returns HTTP 200, carries the page title "APIs:
+  Changelog - Bupa Developer Portal" and renders the heading "API Updates".
+  Its entries are not readable anonymously: like every other catalog view in
+  the portal, it is populated client-side from the APIM management endpoint
+  https://management.api.internal.bupa.com.au/... (service banzprodapim01),
+  an internal-only host that does not resolve publicly. `entries: []` therefore
+  records "no entries readable without a partner account", not "no changes
+  shipped". Nothing has been invented to fill it. Re-run this artifact if Bupa
+  ever opens the portal catalog to anonymous visitors.
+evidence:
+- source: https://portal.api.bupa.com.au/sitemap.xml
+  fetched: '2026-07-25'
+  http_status: 200
+  detail: >-
+    <loc>/api-changelog</loc> with <lastmod>2026-06-17T08:04:22.066Z</lastmod>
+    and <changefreq>daily</changefreq>, alongside /apis, /products, /product
+    and /api-details.
+- source: https://portal.api.bupa.com.au/api-changelog
+  fetched: '2026-07-25'
+  http_status: 200
+  detail: >-
+    Rendered text for an anonymous visitor is the chrome only — "Home / Get
+    Started / Sign-In / Register / API Updates / Home / Terms and Conditions".
+- source: https://portal.api.bupa.com.au/config.json
+  fetched: '2026-07-25'
+  http_status: 200
+  detail: >-
+    managementApiUrl points at management.api.internal.bupa.com.au
+    (managementApiVersion 2022-04-01-preview), confirming the changelog content
+    is served from an internal-only host.
+related:
+  lifecycle: lifecycle/bupa-lifecycle.yml

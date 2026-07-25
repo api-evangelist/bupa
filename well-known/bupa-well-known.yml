@@ -1,0 +1,133 @@
+generated: '2026-07-25'
+method: searched
+source: live probes of /.well-known/* across every Bupa host in apis.yml
+found_on_bupa_hosts: 0
+summary: >-
+  Bupa publishes no /.well-known/ discovery surface on any first-party host.
+  Fifty-four probes across nine hosts returned 404 (group and market-unit web
+  estates), 502 (the Imperva-fronted api.bupa.com.au APIM gateway), 401
+  (api.bupa.cl), or HTTP 200 with an HTML body that is a single-page-app shell
+  or a WAF block page rather than a discovery document. Every HTTP 200 below
+  was opened and its Content-Type and first bytes checked; none is a real
+  well-known document, so no `WellKnown` or `SecurityTxt` pointer is wired into
+  apis.yml. The one genuine OpenID Connect discovery document reachable in
+  Bupa's identity path is Microsoft-hosted, for the Entra ID tenant that fronts
+  the Bupa Chile API portal, and is captured separately below.
+hosts:
+- host: https://www.bupa.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /security.txt, status: 404}
+- host: https://bupa.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /security.txt, status: 404}
+- host: https://portal.api.bupa.com.au
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /security.txt, status: 404}
+  - {path: /robots.txt, status: 404}
+  - path: /sitemap.xml
+    status: 200
+    content_type: application/xml
+    real: true
+    note: >-
+      The only machine-readable document the Azure APIM portal serves
+      anonymously. Declares 15 routes including /apis, /products, /product,
+      /api-details and /api-changelog, all lastmod 2026-06-17T08:04:22.066Z.
+      Used as evidence in changelog/ and lifecycle/.
+  - path: /config.json
+    status: 200
+    content_type: application/json
+    real: true
+    note: >-
+      APIM portal configuration. managementApiUrl points at
+      https://management.api.internal.bupa.com.au/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/banzprodapim01
+      (managementApiVersion 2022-04-01-preview), an internal-only host that
+      does not resolve publicly — this is why the portal's API catalog renders
+      empty for anonymous visitors.
+- host: https://api.bupa.com.au
+  note: Imperva-fronted APIM gateway; every anonymous request returns 502.
+  documents:
+  - {path: /.well-known/security.txt, status: 502}
+  - {path: /.well-known/openid-configuration, status: 502}
+  - {path: /.well-known/oauth-authorization-server, status: 502}
+  - {path: /.well-known/api-catalog, status: 502}
+  - {path: /.well-known/ai-plugin.json, status: 502}
+  - {path: /security.txt, status: 502}
+- host: https://www.bupa.com.au
+  note: >-
+    Every path returns HTTP 200 with an Imperva/Incapsula interstitial or a
+    soft-404 (page title "404"); none is a well-known document.
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 200, real: false, body: text/html Imperva interstitial}
+  - {path: /.well-known/oauth-authorization-server, status: 200, real: false, body: text/html Imperva interstitial}
+  - {path: /.well-known/api-catalog, status: 200, real: false, body: text/html Imperva interstitial}
+  - {path: /.well-known/ai-plugin.json, status: 200, real: false, body: text/html Imperva interstitial}
+  - {path: /security.txt, status: 404}
+- host: https://apidoc.bupa.cl
+  note: >-
+    Angular SPA with a catch-all route; every path returns the index shell
+    (Content-Type text/html, title "Portal de APIs Bupa").
+  documents:
+  - {path: /.well-known/security.txt, status: 200, real: false, body: text/html SPA shell}
+  - {path: /.well-known/openid-configuration, status: 200, real: false, body: text/html SPA shell}
+  - {path: /.well-known/oauth-authorization-server, status: 200, real: false, body: text/html SPA shell}
+  - {path: /.well-known/api-catalog, status: 200, real: false, body: text/html SPA shell}
+  - {path: /.well-known/ai-plugin.json, status: 200, real: false, body: text/html SPA shell}
+  - {path: /security.txt, status: 200, real: false, body: text/html SPA shell}
+- host: https://api.bupa.cl
+  note: >-
+    Backend controller host. Returns 401 for /.well-known/* and an
+    "Unauthorized Request Blocked" HTML page (HTTP 200) for /security.txt.
+  documents:
+  - {path: /.well-known/security.txt, status: 200, real: false, body: text/html "Unauthorized Request Blocked"}
+  - {path: /.well-known/openid-configuration, status: 401}
+  - {path: /.well-known/oauth-authorization-server, status: 401}
+  - {path: /.well-known/api-catalog, status: 401}
+  - {path: /.well-known/ai-plugin.json, status: 401}
+  - {path: /security.txt, status: 200, real: false, body: text/html "Unauthorized Request Blocked"}
+- host: https://www.bupa.co.uk
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /security.txt, status: 404}
+- host: https://bupaglobal.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /security.txt, status: 404}
+third_party_identity:
+- host: https://login.microsoftonline.com
+  tenant: 6faad805-0755-4412-981c-e2d4e4021ee7
+  operator: Microsoft Entra ID
+  relates_to: Bupa Chile API portal (apidoc.bupa.cl)
+  documents:
+  - path: /6faad805-0755-4412-981c-e2d4e4021ee7/v2.0/.well-known/openid-configuration
+    status: 200
+    real: true
+    file: bupa-cl-entra-openid-configuration.json
+    note: >-
+      A genuine OIDC discovery document, saved verbatim. It is served by
+      Microsoft, not by Bupa, so it does not constitute a Bupa-published
+      well-known catalog and no WellKnown pointer is wired from it. It is the
+      evidence base for authentication/bupa-authentication.yml.

@@ -1,0 +1,109 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  Live probes of bupa.com, portal.api.bupa.com.au, api.bupa.com.au,
+  apidoc.bupa.cl and api.bupa.cl, plus the Entra ID OIDC discovery document in
+  well-known/
+note: >-
+  Bupa publishes no OpenAPI, so no standard can be derived from a spec. Each
+  assertion below is either evidenced from a live surface or recorded as
+  unknown. "conforms: false" here means "no public evidence of conformance",
+  not "Bupa is known not to conform" — a partner-gated estate can implement any
+  of these internally without publishing it. No compliance certification is
+  published by Bupa for its API estate, so no `Compliance` pointer is wired.
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    Microsoft Entra ID authorization-code flow fronts the Bupa Chile developer
+    portal; token and authorize endpoints confirmed live in the tenant's OIDC
+    discovery document.
+- id: oidc
+  conforms: true
+  evidence: >-
+    well-known/bupa-cl-entra-openid-configuration.json (HTTP 200); issuer
+    https://login.microsoftonline.com/6faad805-0755-4412-981c-e2d4e4021ee7/v2.0,
+    RS256 id_tokens, pairwise subject types, scopes openid/profile/email/
+    offline_access.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: >-
+    No /.well-known/oauth-authorization-server document is served on any Bupa
+    host (404, 403, 502 or an HTML shell). The OIDC metadata that does exist is
+    Microsoft-hosted.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: >-
+    No security.txt on any Bupa host. See well-known/bupa-well-known.yml. Bupa
+    Australia does run a Bugcrowd vulnerability disclosure engagement, but it
+    is not advertised via RFC 9116.
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document retrievable. /openapi.json, /openapi.yaml,
+    /swagger.json, /v1/openapi.json, /api-docs, /spec and /redoc probed against
+    api.bupa.com.au (all 502) and api.bupa.cl (all 401). The Chile portal ships
+    Swagger UI in its bundle, so definitions exist behind the login wall, but
+    none is anonymously retrievable.
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming or webhook catalog is published on any Bupa surface.
+- id: graphql
+  conforms: false
+  evidence: No /graphql surface found on any Bupa host probed.
+- id: grpc
+  conforms: false
+  evidence: No published .proto definitions; no buf.build or GitHub org repositories.
+- id: rfc9457-problem-details
+  conforms: unknown
+  evidence: >-
+    Cannot be assessed — no spec and no anonymously reachable error response
+    from a Bupa API. The gateway returns Imperva 502 and WAF block pages, not
+    application-level errors.
+- id: rfc8594-sunset-header
+  conforms: unknown
+  evidence: >-
+    No deprecation or sunset policy published. The APIM portal declares an
+    /api-changelog route but renders no entries anonymously.
+- id: fhir
+  conforms: false
+  evidence: >-
+    No FHIR reference on bupa.com, portal.api.bupa.com.au or apidoc.bupa.cl.
+    Bupa's provision arm consumes clinical systems but publishes no FHIR
+    endpoint, capability statement or implementation guide.
+- id: acord
+  conforms: false
+  evidence: >-
+    No mention of ACORD, AL3, ACORD XML, NGDS or ACORD certification anywhere
+    on Bupa's public estate, and no ACORD membership claim surfaced in search.
+    Consistent with the line of business — private medical insurance and health
+    provision, not P&C or life — and with a UK home market where the
+    agency-download plumbing that carries ACORD in the US does not apply.
+- id: psd2
+  conforms: false
+  evidence: Not applicable; Bupa is not a payment service provider.
+- id: fapi
+  conforms: false
+  evidence: No FAPI profile claim or conformance certification found.
+- id: scim
+  conforms: false
+  evidence: No SCIM 2.0 surface found.
+- id: odata
+  conforms: false
+  evidence: No OData surface found.
+- id: json-api
+  conforms: false
+  evidence: No JSON:API media type or convention claim found.
+regulatory_context:
+  home_market: United Kingdom
+  open_insurance_mandate: false
+  note: >-
+    The UK has the FCA and PRA but no open-insurance rule; the FCA's Open
+    Finance work remains at consultation stage, and the London Market's
+    Blueprint Two modernisation targets brokers and syndicates in the
+    subscription P&C market, not a life-and-health carrier. Australia's
+    Consumer Data Right has a designated banking, energy and
+    non-bank-lending scope; private health insurance has not been designated,
+    so no CDR obligation reaches the Bupa Australia estate either. Absence of
+    a public API surface is therefore the expected, unpenalised posture rather
+    than a compliance failure.

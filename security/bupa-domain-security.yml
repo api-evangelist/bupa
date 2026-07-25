@@ -1,0 +1,88 @@
+generated: '2026-07-25'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + market-unit API hosts
+note: >-
+  Probed with 0-working/probe-domain-security.py for the group and Bupa
+  Australia hosts, then extended by hand for the Bupa Chile and Bupa UK market
+  units (openssl s_client for TLS, curl -I for HSTS, dig for CAA/SPF/DMARC/
+  DNSKEY), which the script does not reach from a baseURL walk. Absence of a
+  record is recorded as absence, not as an error.
+hosts:
+- host: www.bupa.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec 12 13:51:15 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: portal.api.bupa.com.au
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  3 23:59:59 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.bupa.com.au
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  3 23:59:59 2026 GMT
+  hsts: null
+  note: >-
+    Imperva-fronted APIM gateway; returns HTTP 502 to anonymous callers, so no
+    HSTS header is observable from an unauthenticated request.
+- host: apidoc.bupa.cl
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan 28 14:56:29 2027 GMT
+  hsts: true
+  hsts_max_age: 15552000
+  hsts_include_subdomains: true
+- host: api.bupa.cl
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan 28 14:56:29 2027 GMT
+  hsts: true
+  hsts_max_age: 15552000
+  hsts_include_subdomains: true
+- host: www.bupa.co.uk
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb  6 09:47:07 2027 GMT
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_preload: true
+domains:
+- domain: bupa.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: bupa.com.au
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: bupa.cl
+  dnssec: false
+  caa:
+  - 0 issue "pki.goog"
+  - 0 issue "globalsign.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: bupa.co.uk
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+summary:
+  hosts_probed: 6
+  https_everywhere: true
+  tls13_everywhere: true
+  hsts_hosts: 5
+  domains_probed: 4
+  dnssec_domains: 0
+  caa_domains: 1
+  spf_domains: 4
+  dmarc_reject_domains: 4

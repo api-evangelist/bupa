@@ -1,0 +1,63 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  portal.api.bupa.com.au (site, sitemap.xml, config.json), apidoc.bupa.cl,
+  www.bupa.com and status-host probes
+note: >-
+  Bupa publishes no versioning policy, no deprecation policy and no status page
+  for its API estate. The one lifecycle surface that exists is the Bupa
+  Australia portal's API Changelog route, which is declared in the portal's own
+  sitemap but renders no entries to anonymous visitors. No `StatusPage` and no
+  `Deprecation` pointer is wired into apis.yml, because neither exists — only
+  the `Lifecycle` and `ChangeLog` pointers are earned.
+versioning:
+  scheme: unknown
+  current: null
+  docs: null
+  evidence: >-
+    No version identifier is exposed. The APIM gateway host api.bupa.com.au
+    returns 502 to anonymous callers so no path or header version convention is
+    observable, and the portal's API list renders empty.
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+  evidence: >-
+    No deprecation or sunset policy is published on either market-unit portal
+    or on the group site. RFC 8594 Sunset/Deprecation header support cannot be
+    tested without gateway access.
+sla:
+  url: null
+  uptime_target: null
+  evidence: >-
+    No published API SLA. Availability commitments, if any, are expected to sit
+    inside the partner agreement that the Bupa Integration Fabric Team issues.
+status_page: null
+status_page_probes:
+- {url: 'https://status.bupa.com', result: NXDOMAIN}
+- {url: 'https://status.api.bupa.com.au', result: NXDOMAIN}
+change_log:
+  url: https://portal.api.bupa.com.au/api-changelog
+  http_status: 200
+  gated: true
+  artifact: changelog/bupa-changelog.yml
+  evidence: >-
+    Declared in https://portal.api.bupa.com.au/sitemap.xml (lastmod
+    2026-06-17T08:04:22.066Z); page title "APIs: Changelog - Bupa Developer
+    Portal", heading "API Updates". Renders no entries anonymously.
+deprecated_operations: []
+lifecycle_stage:
+  public_api_program: partner-gated
+  self_serve: false
+  onboarding_path: >-
+    Contact the Bupa Integration Fabric Team, then receive API specifications,
+    integration guides and environments for selected Products and APIs.
+  decommissioned_surfaces:
+  - host: api-portal.bupaglobal.com
+    status: NXDOMAIN as of 2026-07-25
+    note: >-
+      A Bupa Global developer portal indexed by third-party search engines that
+      no longer resolves. Recorded as decommissioned rather than as a live
+      surface.
+related:
+  changelog: changelog/bupa-changelog.yml
+  conformance: conformance/bupa-conformance.yml

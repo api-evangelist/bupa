@@ -1,0 +1,75 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  npm registry search + package metadata, PyPI, RubyGems, Packagist, NuGet,
+  crates.io, pkg.go.dev, and the Bupa Australia and Bupa Chile developer
+  portals
+official_packages: 0
+note: >-
+  Bupa publishes no first-party client library on any public package registry.
+  No `SDKs` pointer is wired into apis.yml because the count of official client
+  libraries is zero — the packages below are third-party and are catalogued as
+  evidence of how Bupa's gated APIs are actually consumed, not as Bupa
+  deliverables. Both live Bupa developer portals distribute SDKs, if at all,
+  only after a partner agreement.
+packages: []
+third_party_packages:
+- language: typescript
+  registry: npm
+  name: bupa-api-sdk
+  url: https://www.npmjs.com/package/bupa-api-sdk
+  install: npm install bupa-api-sdk
+  official: false
+  latest_version: 3.1.0
+  first_published: '2026-05-28'
+  last_modified: '2026-07-08'
+  publisher: deepakkaushal (deepakkaushal661@gmail.com)
+  repository: null
+  homepage: null
+  description: >-
+    "A reusable TypeScript SDK for consuming Bupa APIs, including Postcode
+    Search and Business Search." Exposes getOAuthToken({clientId,
+    clientSecret}) and a BupaApiSDK client with a postcode.getAddress method.
+  assessment: >-
+    Published by an individual gmail account with no repository, homepage or
+    organisation link, and its README examples use a localhost:4000 mock and
+    placeholder credentials. It is the strongest public signal of what the Bupa
+    Australia estate actually exposes to partners — OAuth client-credentials
+    token issuance plus Postcode Search and Business Search capabilities — but
+    it carries no first-party marker and must not be treated as an official
+    Bupa SDK.
+- language: typescript
+  registry: npm
+  name: "@dev-jo/authentication-lib"
+  url: https://www.npmjs.com/package/@dev-jo/authentication-lib
+  install: npm install @dev-jo/authentication-lib
+  official: false
+  latest_version: 0.5.0
+  publisher: dev-jo
+  repository: git+ssh://git@gitlab.com/bupa-seguros/authentication-lib.git
+  description: '"authentication-lib to use with Azure AD RBAC for BUPA"'
+  assessment: >-
+    Points at a private GitLab group (bupa-seguros) and targets Azure AD
+    role-based access control, corroborating the Microsoft Entra ID identity
+    layer recorded in authentication/bupa-authentication.yml. Published under a
+    personal npm scope, not a Bupa one.
+- language: typescript
+  registry: npm
+  name: bupa-onlineservice-mfe-payments
+  url: https://www.npmjs.com/package/bupa-onlineservice-mfe-payments
+  official: false
+  latest_version: 2.0.25
+  publisher: jechavarriab
+  description: An Angular micro-frontend library for a Bupa online-service payments surface.
+  assessment: >-
+    A micro-frontend build artifact published to the public registry under a
+    personal account, not a client library for a documented Bupa API.
+registries_probed:
+- {registry: npm, query: bupa, result: no first-party package; three third-party packages recorded above}
+- {registry: pypi, query: bupa, result: 404 — no package}
+- {registry: rubygems, query: bupa, result: empty result set}
+- {registry: packagist, query: bupa, result: no Bupa package (only unrelated fuzzy matches)}
+- {registry: nuget, query: bupa, result: empty result set}
+- {registry: crates.io, query: bupa, result: 0 crates}
+- {registry: npm scopes, query: "@bupa/*, @bupa-react-native/*", result: 404 — no Bupa-owned npm scope exists}
+- {registry: github, query: 'org:bupa-digital', result: organisation exists ("Bupa Digital - Australia & New Zealand", created 2017-02-23) but has 0 public repositories}

@@ -1,0 +1,75 @@
+# Bupa
+
+> Bupa is a United Kingdom headquartered international healthcare group that writes private medical insurance and also runs the clinics, dental practices, hospitals and aged-care homes that deliver the care it funds. It has no shareholders, is owned by the British United Provident Association Limited, reinvests its profits, and operates market units across the UK, Australia and New Zealand, Spain and Latin America (Sanitas, Bupa Chile), Turkiye, Poland, Hong Kong SAR, India and the Middle East, plus the Bupa Global international private medical insurance business.
+
+## Read this first — API access posture
+
+Bupa's API estate is **partner-gated**. There is no self-serve public API, no publicly retrievable OpenAPI or Swagger definition, no public Postman collection, no GraphQL or gRPC surface, and no event or webhook catalog anywhere on Bupa's public web estate as of 2026-07-25. None of the four insurance API verbs — quote, bind, issue, FNOL — is exposed to unauthenticated developers.
+
+An agent cannot call a Bupa API from public information. The only documented onboarding path is human: "Contact the Bupa Integration Fabric Team with your interest to get access to our API specifications." Do not attempt to synthesise endpoints, parameters or authentication headers for Bupa — none is published.
+
+- The group site bupa.com has no developer portal. The developer, developers, docs and api subdomains do not resolve; /developers, /api and /developer return 404.
+- Bupa Australia runs a real Azure API Management developer portal at portal.api.bupa.com.au (HTTP 200) that lists no APIs publicly; its catalog renders client-side from an internal-only APIM management host.
+- Bupa Chile runs apidoc.bupa.cl behind a Microsoft Entra ID login wall; its backend at api.bupa.cl/portal/ms-controller returns HTTP 401 to every anonymous request.
+- The Bupa Global developer portal host api-portal.bupaglobal.com no longer resolves (NXDOMAIN) and is recorded as decommissioned.
+
+## APIs
+
+- [Bupa Australia APIs (Integration Fabric)](https://portal.api.bupa.com.au/): Azure API Management estate served from the api.bupa.com.au gateway. Portal is reachable; catalog and specifications are released only after a partner agreement. Gateway returns HTTP 502 to anonymous callers.
+- [Portal de APIs Bupa (Bupa Chile)](https://apidoc.bupa.cl/): Angular portal shipping Swagger UI over definitions fetched from https://api.bupa.cl/portal/ms-controller. Login wall; nothing readable without credentials.
+
+## Developer surfaces
+
+- [Bupa Developer Portal — home](https://portal.api.bupa.com.au/)
+- [Get Started](https://portal.api.bupa.com.au/get-started): the entire public onboarding text — three steps, all routed through the Bupa Integration Fabric Team.
+- [APIs list](https://portal.api.bupa.com.au/apis): renders empty for anonymous visitors.
+- [API details](https://portal.api.bupa.com.au/api-details): renders empty for anonymous visitors.
+- [API changelog](https://portal.api.bupa.com.au/api-changelog): route exists; entries gated.
+- [Sign in / Register](https://portal.api.bupa.com.au/signin)
+- [Developer portal terms and conditions](https://www.bupa.com.au/terms-and-conditions)
+
+## Specs
+
+None published. No OpenAPI, Swagger, AsyncAPI, GraphQL SDL or Protobuf definition could be retrieved. /openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /spec and /redoc were probed against api.bupa.com.au (all HTTP 502) and api.bupa.cl (all HTTP 401).
+
+## Authentication
+
+- [Authentication profile](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/authentication/bupa-authentication.yml): Microsoft Entra ID OpenID Connect (tenant 6faad805-0755-4412-981c-e2d4e4021ee7) confirmed for the Bupa Chile portal; Azure API Management subscription keys inferred from the platform for Bupa Australia and explicitly NOT confirmed against any Bupa document.
+- [Entra ID OIDC discovery document](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/well-known/bupa-cl-entra-openid-configuration.json): captured verbatim; the only genuine discovery document in Bupa's identity path.
+
+## Security
+
+- [Bupa Australia Vulnerability Disclosure Engagement](https://bugcrowd.com/engagements/bupa-aus-vdp-pro): Bugcrowd-hosted VDP (disclosure, not a paid bounty).
+- [Vulnerability disclosure record](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/security/bupa-vulnerability-disclosure.yml)
+- [Domain security posture](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/security/bupa-domain-security.yml): TLS 1.3 and HSTS across six hosts; no DNSSEC on any of the four registrable domains; CAA only on bupa.cl; SPF and DMARC p=reject on all four.
+- [Managing cybersecurity risks](https://www.bupa.com/impact/responsible-business/business-ethics/managing-cybersecurity-risks): group-level governance narrative; names no certification.
+- No RFC 9116 security.txt is served on any Bupa host.
+
+## Standards and conformance
+
+- [Conformance record](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/conformance/bupa-conformance.yml): OAuth 2.0 and OpenID Connect evidenced; OpenAPI, AsyncAPI, GraphQL, gRPC, RFC 9116, RFC 8414, FHIR and ACORD all absent from the public surface. No open-insurance mandate applies — the UK has no open-insurance rule and Australia's Consumer Data Right has not designated private health insurance.
+
+## Packages
+
+- [Package record](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/packages/bupa-packages.yml): zero official Bupa client libraries on npm, PyPI, RubyGems, Packagist, NuGet, crates.io or pkg.go.dev. Three third-party npm packages reference Bupa APIs; none is first-party and none should be presented as an official SDK.
+
+## Lifecycle
+
+- [Lifecycle record](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/lifecycle/bupa-lifecycle.yml): no versioning policy, no deprecation policy, no SLA, no status page (status.bupa.com and status.api.bupa.com.au are both NXDOMAIN).
+- [Changelog record](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/changelog/bupa-changelog.yml)
+
+## Company
+
+- [Bupa Group](https://www.bupa.com/)
+- [News and stories](https://www.bupa.com/news-and-press/news-and-stories)
+- [Contact us](https://www.bupa.com/contacts)
+- [Privacy notices](https://www.bupa.com/important-notices/privacy-notices)
+- [bupa.com terms of use](https://www.bupa.com/important-notices/terms-of-use)
+- [Bupa Digital ANZ on GitHub](https://github.com/bupa-digital): organisation exists; zero public repositories.
+- [Bupa on LinkedIn](https://www.linkedin.com/company/bupa)
+
+## Optional
+
+- [API Evangelist profile for Bupa](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/apis.yml)
+- [Full public-surface review](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/review.yml): every host and path probed on 2026-07-25 with its HTTP status.
+- [Well-known probe index](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/well-known/bupa-well-known.yml): 54 probes across 9 hosts; zero real well-known documents on Bupa-controlled hosts.
