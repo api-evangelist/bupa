@@ -92,6 +92,11 @@ apis:
   - Insurance
   - Health Insurance
   - Australia
+  - Azure API Management
+  tags_raw:
+  - Insurance
+  - Health Insurance
+  - Australia
   - Partner Gated
   - Azure API Management
   properties:
@@ -125,6 +130,11 @@ apis:
   humanURL: https://apidoc.bupa.cl/
   baseURL: https://api.bupa.cl/portal/ms-controller
   tags:
+  - Insurance
+  - Health Insurance
+  - Chile
+  - Login Wall
+  tags_raw:
   - Insurance
   - Health Insurance
   - Chile
