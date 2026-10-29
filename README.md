@@ -1,4 +1,4 @@
-# Bupa (bupa)
+# Bupa
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,57 +64,96 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Bupa is a United Kingdom headquartered international healthcare group that writes private medical insurance and also runs the clinics, dental practices, hospitals and aged-care homes that deliver the care it funds. It has no shareholders, is owned by the British United Provident Association Limited and reinvests its profits, and operates market units across the UK, Australia and New Zealand, Spain and Latin America (Sanitas, Bupa Chile), Türkiye, Poland, Hong Kong SAR, India and the Middle East, plus the Bupa Global international private medical insurance business.
+Bupa is a United Kingdom headquartered international healthcare group that writes private medical insurance and also runs the clinics, dental practices, hospitals and aged-care homes that deliver the care it funds. It has no shareholders, is owned by the British United Provident Association Limited and reinvests its profits, and operates market units across the UK, Australia and New Zealand, Spain and Latin America (Sanitas, Bupa Chile), Turkiye, Poland, Hong Kong SAR, India and the Middle East, plus the Bupa Global international private medical insurance business. Its lines of business are health insurance, health provision and aged care rather than property and casualty or life, so the ACORD data standards that shape the rest of the insurance sector are absent from its published surface. Bupa's API posture is partner-gated: the group site bupa.com publishes no developer portal at all (developer, developers, docs and api subdomains do not resolve, and /developers, /api and /developer return 404), and the only first-party developer surfaces belong to market units. Bupa Australia runs a real Azure API Management developer portal at portal.api.bupa.com.au that returns HTTP 200 but lists no APIs publicly, instructing prospective consumers to contact the Bupa Integration Fabric Team to get access to API specifications; Bupa Chile runs apidoc.bupa.cl behind a Microsoft Entra ID login wall whose backend returns HTTP 401 to anonymous callers; and the Bupa Global portal host api-portal.bupaglobal.com no longer resolves. No public OpenAPI or Swagger definition, no Postman collection, no GraphQL or gRPC surface, and no event or webhook catalog could be confirmed anywhere on Bupa's public web estate as of 2026-07-25, and none of the four insurance API verbs — quote, bind, issue or FNOL — is exposed to unauthenticated developers.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/bupa/refs/heads/main/apis.yml)
+**Areas:** Insurance · United Kingdom · Health Insurance · Life and Health · Carrier · Healthcare · Aged Care · Claims · Policy Administration
 
-## Tags
+## Bupa on APIs.io
 
-- Insurance
-- United Kingdom
-- Health Insurance
-- Life and Health
-- Carrier
-- Healthcare
-- Aged Care
-- Claims
-- Policy Administration
-- Partner Gated
+Everything profiled for Bupa is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/bupa/](https://apis.io/providers/bupa/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (2)
 
-- **Created:** 2026-07-25
-- **Modified:** 2026-07-25
+- [Bupa Australia APIs (Integration Fabric)](https://apis.io/apis/bupa/bupa-australia-apis-integration-fabric/) — The Bupa Australia API estate, published through an Azure API Management managed developer portal at portal.api.bupa.com.au and served from the…
+- [Portal de APIs Bupa (Bupa Chile)](https://apis.io/apis/bupa/portal-de-apis-bupa-bupa-chile/) — The Bupa Chile API portal at apidoc.bupa.cl — an Angular single-page application that ships Swagger UI and renders API definitions fetched from the backend…
 
-## APIs
+### Published properties
 
-None listed.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Bupa publishes no public, self-serve API. This is an honest and expected finding for a life-and-health carrier in a market with no open-insurance obligation — the UK has the FCA and PRA but no open-insurance rule, the FCA's Open Finance work is still consultation, and the London Market's Blueprint Two modernization programme is aimed at brokers and syndicates in the subscription P&C market rather than at a health carrier or at outside developers.
+#### Security (3)
 
-What exists instead:
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Group level (bupa.com) — nothing.** `developer.bupa.com`, `developers.bupa.com`, `docs.bupa.com` and `api.bupa.com` do not resolve. `/developers`, `/api`, `/developer` and `/integrations` all return HTTP 404. `/partners` redirects off-domain to a Saba learning-cloud partner training site.
-- **Bupa Australia — a real portal, but gated.** [portal.api.bupa.com.au](https://portal.api.bupa.com.au/) returns HTTP 200 and is a genuine Azure API Management developer portal, but it lists no APIs to anonymous visitors and its [Get Started](https://portal.api.bupa.com.au/get-started) page routes every step through the Bupa Integration Fabric Team: *"Contact the Bupa Integration Fabric Team with your interest to get access to our API specifications."* The portal's own `config.json` points at an internal-only APIM management host, so the catalog cannot be read from outside.
-- **Bupa Chile — a login wall.** [apidoc.bupa.cl](https://apidoc.bupa.cl/) is an Angular single-page app fronted by Microsoft Entra ID; its backend `https://api.bupa.cl/portal/ms-controller` returns HTTP 401 to every anonymous request.
-- **Bupa Global — decommissioned.** `api-portal.bupaglobal.com` is indexed by third parties but no longer resolves.
-- **UK intermediaries — a broker portal, not an API.** The UK channel for brokers and intermediaries is the login-gated Bupa Connect web portal for quotes and cover.
+- [Bupa Authentication](https://apis.io/security/bupa/bupa-authentication/)
+- [Bupa Domain Security](https://apis.io/security/bupa/bupa-domain-security/)
+- [Bupa Vulnerability Disclosure](https://apis.io/security/bupa/bupa-vulnerability-disclosure/)
 
-## Sector signals
+## Where to find this API
 
-- **ACORD posture:** no ACORD reference found. No mention of ACORD, AL3, ACORD XML, NGDS or ACORD certification appears anywhere on Bupa's public estate — consistent with a private medical insurance and healthcare provision book rather than P&C or life.
-- **Quote / bind / issue / FNOL:** none publicly exposed. Claims run through the myBupa member app and gated provider channels.
-- **Auth model:** OAuth2 authorization code via Microsoft Entra ID guards the Chile portal; Azure APIM subscription keys are implied by the Australian portal's copy but are not publicly documented.
-- **Webhooks / events / Postman / GraphQL / gRPC:** none found.
-- **OpenAPI harvested:** 0 specifications. Candidate spec paths were probed against `api.bupa.com.au` (all HTTP 502) and `api.bupa.cl` (all HTTP 401). No `openapi/` directory is included, because nothing real was available to save.
-
-Full probe log, HTTP statuses and provenance are in [review.yml](review.yml).
-
-## Links
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.bupa.com/)
-- [News](https://www.bupa.com/news)
-- [LinkedIn](https://www.linkedin.com/company/bupa)
-- [Bupa Developer Portal (Australia)](https://portal.api.bupa.com.au/)
-- [Get Started (Australia)](https://portal.api.bupa.com.au/get-started)
-- [Portal de APIs Bupa (Chile)](https://apidoc.bupa.cl/)
+- [Documentation](https://portal.api.bupa.com.au/apis)
+- [Getting started](https://portal.api.bupa.com.au/get-started)
+- [API reference](https://portal.api.bupa.com.au/api-details)
+- [Sign up](https://portal.api.bupa.com.au/signin)
+- [Support](https://www.bupa.com/contacts)
+- [Blog](https://www.bupa.com/news-and-press/news-and-stories)
+- [Security](https://bugcrowd.com/engagements/bupa-aus-vdp-pro)
+- [Terms of service](https://www.bupa.com.au/terms-and-conditions)
+- [Privacy policy](https://www.bupa.com/important-notices/privacy-notices)
+- [GitHub](https://github.com/bupa-digital)
+
+## API Evangelist rating
+
+**Kin Score 30.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 28.9 |
+| Developer ergonomics | 57.1 |
+| Access clarity | 23.7 |
+
+**Agent readiness 2.5** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 23.7** — Insurance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/bupa/](https://apis.io/providers/bupa/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Bupa: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/bupa/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
